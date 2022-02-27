@@ -22,13 +22,21 @@ def write(path, cube_list):
     file.write(str(num_var)+'\n')
     file.write(str(num_cube)+'\n')
     
-    list = []
-    for cube in cube_list:
-        count = 0
+    # list = []
+    # for cube in cube_list:
+    #     count = 0
+    #     for var in cube:
+    #         count = int(var) + count * 10
+    #     list.append(count)
+    # list.sort()
+    # for cube in list:
+    #     file.write(str(cube).zfill(num_var))
+    #     file.write('\n')
+    
+    write_order = np.lexsort(np.rot90(cube_list),axis=0)
+    
+    for i in write_order:
+        cube = cube_list[i,:]
         for var in cube:
-            count = int(var) + count * 10
-        list.append(count)
-    list.sort()
-    for cube in list:
-        file.write(str(cube).zfill(num_var))
+            file.write(str(int(var)))
         file.write('\n')

@@ -64,8 +64,8 @@ class URP:
         else:
             P = self.Simplify(p_cube)
             N = self.Simplify(n_cube)
-
-            return self.merge(P, N, var_idx)
+            mer = self.merge(P, N, var_idx)
+            return mer
     
     def merge(self, P, N, var_idx):
         # Cube list to receive result
@@ -81,7 +81,11 @@ class URP:
                 # Cube to compare with
                 cube_ref = N[j]
                 contain_flag = self.Contain(cube, cube_ref)
-                
+                # print("----------------")
+                # print(cube)
+                # print(cube_ref)
+                # print(contain_flag)
+                # print("----------------")
                 if contain_flag != 0:
                     # 1.The cube is contained by cube j, add d
                     if contain_flag == -1:
@@ -163,11 +167,11 @@ class URP:
     
     def Contain(self, cube, cube_ref):
         # Variable-wise comparation
-        dif = cube - cube_ref       
+        dif = cube - cube_ref
         # Dont care information
         dont_care     = cube == 2
         dont_care_ref = cube_ref == 2
-        dont_care_all = dont_care * dont_care_ref
+        dont_care_all = ~dont_care * ~dont_care_ref
         
         # A cube is contained by another
         # 1.The difference can only have either -1,-2 or 1,2
@@ -177,7 +181,7 @@ class URP:
                 # 1.The cube is contained by cube j
                 if (dif.min() < 0):
                     return -1
-                # 2.The cube contains cube j
+                # 2.The cube contains cube j or identical
                 else:
                     return 1
         # 3.Neither one contains the other
